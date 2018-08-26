@@ -16,12 +16,18 @@ LRESULT WINAPI WinProc(
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
+	case WM_KEYDOWN:
+	case WM_SYSKEYDOWN:
+		break;
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		break;
 	}
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-bool CreateMainWindow(HINSTANCE hInstance, int nCmdShow) 
+bool CreateMainWindow(HWND &hWnd, HINSTANCE hInstance, int nCmdShow) 
 {
 	WNDCLASSEX wcx;
 		wcx.cbSize = sizeof(wcx);
@@ -34,30 +40,29 @@ bool CreateMainWindow(HINSTANCE hInstance, int nCmdShow)
 		wcx.hCursor = LoadCursor(NULL, IDC_ARROW);
 		wcx.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 		wcx.lpszMenuName = NULL;
-		wcx.lpszClassName = "WinMain";
+		wcx.lpszClassName = constant::GAME_NAME;
 		wcx.hIconSm = NULL;
 	if (RegisterClassEx(&wcx) == 0)
 		return false;
 
-	HWND hwnd;
-	hwnd = CreateWindow(
-		"WinMain",
-		"WinMain",
+	hWnd = CreateWindow(
+		constant::GAME_NAME,
+		constant::GAME_NAME,
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
-		400,
-		400,
+		constant::WIDTH,
+		constant::HEIGHT,
 		NULL,
 		NULL,
 		hInstance,
 		NULL
 	);
-	if (!hwnd)
+	if (!hWnd)
 		return false;
 
-	ShowWindow(hwnd, nCmdShow);
-	UpdateWindow(hwnd);
+	ShowWindow(hWnd, nCmdShow);
+	UpdateWindow(hWnd);
 	return true;
 }
 

@@ -8,5 +8,6 @@ video-driver.h
 
 #include <Windows.h>
 
-bool CreateMainWindow(HINSTANCE, int);
+bool CreateMainWindow(HWND &, HINSTANCE, int);
 LRESULT WINAPI WinProc(HWND, UINT, WPARAM, LPARAM);
+
