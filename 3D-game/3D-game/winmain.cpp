@@ -39,12 +39,12 @@ int WINAPI WinMain(
 #endif
 
 	if (ThereIsAnotherInstance())
-		return false;
+		return 1;
 
 	MSG msg;
 	HWND hWnd;
 	if (!CreateMainWindow(hWnd, hInstance, nCmdShow))
-		return false;
+		return 1;
 
 	Graphics *graphics = new Graphics;
 	try {
@@ -68,11 +68,23 @@ int WINAPI WinMain(
 		}
 		SAFE_DELETE(graphics);
 	}
+	catch (GameError &gameError) 
+	{
+		switch(gameError.getErrorCode())
+		{
+		case FATAL_ERROR:
+			MessageBox(NULL, gameError.getMessage(), "Fatal Error", MB_OK);
+			break;
+		case WARNING:
+			MessageBox(NULL, gameError.getMessage(), "WARNING", MB_OK);
+			break;
+		}
+	}
 	catch (...)
 	{
 		MessageBox(NULL, "Unknown error occured", "Error", MB_OK);
 	}
 
 	SAFE_DELETE(graphics);
-	return msg.wParam;
+	return 0;
 }

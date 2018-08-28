@@ -34,7 +34,7 @@ void Graphics::Initialize(HWND _hwnd, int _width, int _height, bool _isFullscree
 	isFullscreen = _isFullscreen;
 
 	if (NULL == (direct3d = Direct3DCreate9(D3D_SDK_VERSION)))
-		return;
+		throw(GameError(FATAL_ERROR, "Fail in initializing Direct3D"));
 
 	_InitD3Dpp();
 	hResult = direct3d->CreateDevice(
@@ -47,7 +47,8 @@ void Graphics::Initialize(HWND _hwnd, int _width, int _height, bool _isFullscree
 	);
 
 	if (FAILED(hResult))
-		return;
+		throw(GameError(FATAL_ERROR, "Fail in creating direct3d device"));
+
 }
 
 HRESULT Graphics::ShowBackbuffer()

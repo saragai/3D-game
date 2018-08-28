@@ -133,8 +133,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constant.h" />
+    <ClInclude Include="game_error.h" />
     <ClInclude Include="graphics.h" />
-    <ClInclude Include="video-driver.h" />
+    <ClInclude Include="video_driver.h" />
     <ClInclude Include="define.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
