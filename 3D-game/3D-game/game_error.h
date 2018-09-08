@@ -9,6 +9,9 @@ game_error.h
 #include <exception>
 #include <string>
 
+#define FATAL_ERROR -1
+#define WARNING 1
+
 class GameError : public std::exception
 {
 private:

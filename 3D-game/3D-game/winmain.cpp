@@ -10,8 +10,12 @@ winmain.cpp
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
+#include <Windows.h>
 
-#include "define.h"
+#include "video_driver.h"
+#include "game_error.h"
+#include "safe.h"
+#include "new_game.h"
 
 bool ThereIsAnotherInstance()
 {
@@ -46,9 +50,9 @@ int WINAPI WinMain(
 	if (!CreateMainWindow(hWnd, hInstance, nCmdShow))
 		return 1;
 
-	Graphics *graphics = new Graphics;
+	NewGame *newGame = new NewGame;
 	try {
-		graphics->Initialize(hWnd, constant::WIDTH, constant::HEIGHT, constant::IS_FULLSCREEN);
+		newGame->Initialize(hWnd);
 
 		bool done = true;
 		while (done)
@@ -63,10 +67,10 @@ int WINAPI WinMain(
 			}
 			else
 			{
-				graphics->ShowBackbuffer();
+				newGame->Run();
 			}
 		}
-		SAFE_DELETE(graphics);
+		SAFE_DELETE(newGame);
 	}
 	catch (GameError &gameError) 
 	{
@@ -85,6 +89,6 @@ int WINAPI WinMain(
 		MessageBox(NULL, "Unknown error occured", "Error", MB_OK);
 	}
 
-	SAFE_DELETE(graphics);
+	SAFE_DELETE(newGame);
 	return 0;
 }
